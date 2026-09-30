@@ -7,10 +7,13 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "./store/reducers/auth";
 
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const dispatch = useDispatch();
 
     const navigate = useNavigate();
 
@@ -38,6 +41,8 @@ export default function Login() {
                 "access_token",
                 response.data.access_token
             );
+
+            dispatch(login(response.data.access_token));
 
             navigate("/");
         } catch (error) {

@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import restaurantReducer from "./reducers/restaurants"
 import productReducer from "./reducers/products"
 import loadingReducer from './reducers/loading'
+import authReducer from "./reducers/auth";
 
 export const store = configureStore({
     reducer: {
         restaurant: restaurantReducer,
         product: productReducer,
         loading: loadingReducer,
+        auth: authReducer
     }
 })
 export type AppStore = typeof store
