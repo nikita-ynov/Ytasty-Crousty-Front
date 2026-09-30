@@ -17,6 +17,14 @@ export default function Login() {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        if (username.length < 8 || username.length > 12) {
+            return;
+        }
+
+        if (password.length < 12 || password.length > 64) {
+            return;
+        }
+
         try {
             const response = await axios.post(
                 `${import.meta.env.VITE_API_URL}/auth/login`,
