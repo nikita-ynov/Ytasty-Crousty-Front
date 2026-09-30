@@ -1,8 +1,18 @@
 import { Link } from "react-router-dom";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import CityMenu from "./CityMenu";
+import { useSelector } from "react-redux";
+import type { RootState } from "../store/store";
 
 export default function Header() {
+    const cartItems = useSelector(
+        (state: RootState) => state.cart.items
+    );
+
+    const cartCount = cartItems.reduce(
+        (total, item) => total + item.quantity,
+        0
+    );
     return (
         <header className="header">
             <div className="header-container">
@@ -41,7 +51,7 @@ export default function Header() {
                     >
                         <ShoppingBagIcon />
 
-                        <span>3</span>
+                        {cartCount > 0 && <span>{cartCount}</span>}
                     </Link>
 
                     <Link className="login" to="/login">
