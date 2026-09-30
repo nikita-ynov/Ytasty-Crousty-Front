@@ -34,7 +34,6 @@ export default function Header() {
     return (
         <header className="header">
             <div className="header-container">
-
                 <Link className="logo" to="/">
                     <img
                         src="https://upload.wikimedia.org/wikipedia/fr/4/4c/Logo_Tasty_Crousty.webp"
@@ -61,7 +60,6 @@ export default function Header() {
                 </nav>
 
                 <div className="header-actions">
-
                     <CityMenu />
 
                     <Link className="cart" to="/cart" aria-label="Panier">
@@ -81,7 +79,6 @@ export default function Header() {
                             Connexion
                         </Link>
                     )}
-
                 </div>
             </div>
         </header>

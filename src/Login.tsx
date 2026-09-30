@@ -1,100 +1,116 @@
-import { Link, useNavigate } from "react-router-dom";
-import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
-import CityMenu from "./CityMenu";
-import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "../store/store";
-import { logout } from "../store/reducers/auth";
+import { useState, type FormEvent } from "react";
+import {Box, Button, TextField, Typography} from "@mui/material";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "./store/reducers/auth";
 
-export default function Header() {
+export default function Login() {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const token = useSelector(
-        (state: RootState) => state.auth.token
-    );
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
 
-    const cartItems = useSelector(
-        (state: RootState) => state.cart.items
-    );
+        if (username.length < 8 || username.length > 12) {
+            return;
+        }
 
-    const cartCount = cartItems.reduce(
-        (total, item) => total + item.quantity,
-        0
-    );
+        if (!/^[a-zA-Z0-9]+$/.test(username)) {
+            return;
+        }
 
-    const handleLogout = () => {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("role");
+        if (password.length < 12 || password.length > 64) {
+            return;
+        }
 
-        dispatch(logout());
+        try {
+            const response = await axios.post(
+                `${import.meta.env.VITE_API_URL}/auth/login`,
+                {
+                    username,
+                    password
+                }
+            );
 
-        navigate("/login");
+            const token = response.data.access_token;
+
+            let role: "admin" | "staff" | "direction" = "staff";
+
+            if (username === "admin123") {
+                role = "admin";
+            }
+
+            localStorage.setItem("access_token", token);
+            localStorage.setItem("role", role);
+
+            dispatch(
+                login({
+                    token,
+                    role
+                })
+            );
+
+            navigate("/");
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
-        <header className="header">
-            <div className="header-container">
+        <Box
+            component="main"
+            sx={{
+                maxWidth: 400,
+                margin: "60px auto",
+                padding: 3
+            }}
+        >
+            <Typography
+                variant="h4"
+                component="h1"
+                sx={{ marginBottom: 3 }}
+            >
+                Connexion
+            </Typography>
 
-                <Link className="logo" to="/">
-                    <img
-                        src="https://upload.wikimedia.org/wikipedia/fr/4/4c/Logo_Tasty_Crousty.webp"
-                        alt="Ytasty Crousty"
-                    />
-                </Link>
+            <Box
+                component="form"
+                onSubmit={handleSubmit}
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 2
+                }}
+            >
+                <TextField
+                    label="Identifiant"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                    fullWidth
+                />
 
-                <nav className="header-nav">
-                    <ul>
-                        <li>
-                            <Link to="/">Accueil</Link>
-                        </li>
+                <TextField
+                    label="Mot de passe"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    fullWidth
+                />
 
-                        <li>
-                            <Link to="/menu">Menu</Link>
-                        </li>
-
-                        <li>
-                            <Link to="/tracking">
-                                Suivre ma commande
-                            </Link>
-                        </li>
-                    </ul>
-                </nav>
-
-                <div className="header-actions">
-
-                    <CityMenu />
-
-                    <Link
-                        className="cart"
-                        to="/cart"
-                        aria-label="Panier"
-                    >
-                        <ShoppingBagIcon />
-
-                        {cartCount > 0 && (
-                            <span>{cartCount}</span>
-                        )}
-                    </Link>
-
-                    {token ? (
-                        <button
-                            className="login"
-                            onClick={handleLogout}
-                        >
-                            Déconnexion
-                        </button>
-                    ) : (
-                        <Link
-                            className="login"
-                            to="/login"
-                        >
-                            Connexion
-                        </Link>
-                    )}
-
-                </div>
-
-            </div>
-        </header>
+                <Button
+                    type="submit"
+                    variant="contained"
+                    fullWidth
+                >
+                    Se connecter
+                </Button>
+            </Box>
+        </Box>
     );
 }
