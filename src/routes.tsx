@@ -1,7 +1,9 @@
 import App from './App.tsx'
 import { Outlet } from 'react-router-dom'
 import Header from './components/Header.tsx';
+import Menu from './pages/Menu.tsx';
 import Login from "./Login.tsx";
+import Cart from './pages/Cart.tsx';
 
 const Layout = () => (
     <>
@@ -19,9 +21,17 @@ const routes = [
                 element: <App />,
             },
             {
+                path: "/menu",
+                element: <Menu />,
+            },
+            {
                 path: "/login",
                 element: <Login />
-            }
+            },
+            {
+                path: "/cart",
+                element: <Cart />,
+            },
             // {
             //     path: "/login",
             //     element: <GuestRoute><Login /></GuestRoute>,
