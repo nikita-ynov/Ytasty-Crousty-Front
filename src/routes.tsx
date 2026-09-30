@@ -1,6 +1,7 @@
-import App from './App.tsx'
+
 import { Outlet } from 'react-router-dom'
 import Header from './components/Header.tsx';
+import Checkout from "./Checkout.tsx";
 
 const Layout = () => (
     <>
@@ -15,8 +16,12 @@ const routes = [
         children: [
             {
                 path: "/",
-                element: <App />,
+                element: <Checkout />,
             },
+            {
+                 path: "/formulaire",
+                 element: <Checkout/>,
+             }
             // {
             //     path: "/login",
             //     element: <GuestRoute><Login /></GuestRoute>,
