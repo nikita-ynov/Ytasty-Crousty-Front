@@ -1,10 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import CityMenu from "./CityMenu";
-import { useSelector } from "react-redux";
-import type { RootState } from "../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../store/store.ts";
+import { logout } from "../store/reducers/auth.ts";
 
 export default function Header() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const token = useSelector(
+        (state: RootState) => state.auth.token
+    );
+
     const cartItems = useSelector(
         (state: RootState) => state.cart.items
     );
@@ -13,6 +21,16 @@ export default function Header() {
         (total, item) => total + item.quantity,
         0
     );
+
+    const handleLogout = () => {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("role");
+
+        dispatch(logout());
+
+        navigate("/login");
+    };
+
     return (
         <header className="header">
             <div className="header-container">
@@ -35,7 +53,9 @@ export default function Header() {
                         </li>
 
                         <li>
-                            <Link to="/tracking">Suivre ma commande</Link>
+                            <Link to="/tracking">
+                                Suivre ma commande
+                            </Link>
                         </li>
                     </ul>
                 </nav>
@@ -44,22 +64,25 @@ export default function Header() {
 
                     <CityMenu />
 
-                    <Link
-                        className="cart"
-                        to="/cart"
-                        aria-label="Panier"
-                    >
+                    <Link className="cart" to="/cart" aria-label="Panier">
                         <ShoppingBagIcon />
 
-                        {cartCount > 0 && <span>{cartCount}</span>}
+                        {cartCount > 0 && (
+                            <span>{cartCount}</span>
+                        )}
                     </Link>
 
-                    <Link className="login" to="/login">
-                        Connexion
-                    </Link>
+                    {token ? (
+                        <button className="login" onClick={handleLogout}>
+                            Déconnexion
+                        </button>
+                    ) : (
+                        <Link className="login" to="/login">
+                            Connexion
+                        </Link>
+                    )}
 
                 </div>
-
             </div>
         </header>
     );

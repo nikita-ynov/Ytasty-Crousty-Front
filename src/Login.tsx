@@ -1,18 +1,25 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ShoppingBagIcon from "@mui/icons-material/ShoppingBag";
 import CityMenu from "./CityMenu";
-import type { RootState } from "../store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import type { RootState } from "../store/store";
 import { logout } from "../store/reducers/auth";
 
 export default function Header() {
-
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const token = useSelector(
         (state: RootState) => state.auth.token
+    );
+
+    const cartItems = useSelector(
+        (state: RootState) => state.cart.items
+    );
+
+    const cartCount = cartItems.reduce(
+        (total, item) => total + item.quantity,
+        0
     );
 
     const handleLogout = () => {
@@ -24,14 +31,6 @@ export default function Header() {
         navigate("/login");
     };
 
-    const cartItems = useSelector(
-        (state: RootState) => state.cart.items
-    );
-
-    const cartCount = cartItems.reduce(
-        (total, item) => total + item.quantity,
-        0
-    );
     return (
         <header className="header">
             <div className="header-container">
@@ -54,7 +53,9 @@ export default function Header() {
                         </li>
 
                         <li>
-                            <Link to="/tracking">Suivre ma commande</Link>
+                            <Link to="/tracking">
+                                Suivre ma commande
+                            </Link>
                         </li>
                     </ul>
                 </nav>
@@ -70,7 +71,9 @@ export default function Header() {
                     >
                         <ShoppingBagIcon />
 
-                        {cartCount > 0 && <span>{cartCount}</span>}
+                        {cartCount > 0 && (
+                            <span>{cartCount}</span>
+                        )}
                     </Link>
 
                     {token ? (
@@ -81,7 +84,10 @@ export default function Header() {
                             Déconnexion
                         </button>
                     ) : (
-                        <Link className="login" to="/login">
+                        <Link
+                            className="login"
+                            to="/login"
+                        >
                             Connexion
                         </Link>
                     )}
