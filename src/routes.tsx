@@ -2,6 +2,7 @@
 import { Outlet } from 'react-router-dom'
 import Header from './components/Header.tsx';
 import Checkout from "./Checkout.tsx";
+import Confirmation from "./Confirmation.tsx";
 
 const Layout = () => (
     <>
@@ -21,7 +22,11 @@ const routes = [
             {
                  path: "/formulaire",
                  element: <Checkout/>,
-             }
+             },
+            {
+                path: "/confirmation/:orderNumber",
+                element: <Confirmation />
+            }
             // {
             //     path: "/login",
             //     element: <GuestRoute><Login /></GuestRoute>,
