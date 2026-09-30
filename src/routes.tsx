@@ -1,6 +1,8 @@
-
+import App from './App.tsx'
 import { Outlet } from 'react-router-dom'
 import Header from './components/Header.tsx';
+import Menu from './pages/Menu.tsx';
+import Cart from './pages/Cart.tsx';
 import Checkout from "./Checkout.tsx";
 import Confirmation from "./Confirmation.tsx";
 
@@ -17,7 +19,7 @@ const routes = [
         children: [
             {
                 path: "/",
-                element: <Checkout />,
+                element: <App />,
             },
             {
                  path: "/formulaire",
@@ -26,7 +28,15 @@ const routes = [
             {
                 path: "/confirmation/:orderNumber",
                 element: <Confirmation />
-            }
+            },
+            {
+                path: "/menu",
+                element: <Menu />,
+            },
+            {
+                path: "/cart",
+                element: <Cart />,
+            },
             // {
             //     path: "/login",
             //     element: <GuestRoute><Login /></GuestRoute>,
