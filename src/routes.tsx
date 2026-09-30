@@ -1,6 +1,7 @@
 import App from './App.tsx'
 import { Outlet } from 'react-router-dom'
 import Header from './components/Header.tsx';
+import Menu from './pages/Menu.tsx';
 
 const Layout = () => (
     <>
@@ -17,6 +18,10 @@ const routes = [
                 path: "/",
                 element: <App />,
             },
+            {
+                path: "/menu",
+                element: <Menu />,
+            },
             // {
             //     path: "/login",
             //     element: <GuestRoute><Login /></GuestRoute>,
@@ -24,10 +29,6 @@ const routes = [
             // {
             //     path: "/profile",
             //     element: <PrivateRoute><Profile /></PrivateRoute>,
-            // },
-            // {
-            //     path: "/users",
-            //     element: <Users />,
             // },
             // {
             //     path: "/user/:userId",

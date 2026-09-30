@@ -7,14 +7,18 @@ import AddIcon from "@mui/icons-material/Add"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
 
 function App() {
+  const currentRestaurant = useSelector(
+    (state: RootState) => state.restaurant.currentRestaurant
+  );
   const products = useSelector(
     (state: RootState) => state.product.products
   )
 
   const availableProducts = products.filter(
-    (product) => product.is_available
+    (product) =>
+      product.is_available &&
+      product.restaurant_id === currentRestaurant?.id
   )
-
   return (
     <main className="home">
 
