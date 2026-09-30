@@ -2,9 +2,10 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
+import Chip from "@mui/material/Chip";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { useDispatch, useSelector } from "react-redux"
-import type { RootState } from "../store/store"
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../store/store";
 import type { Restaurant } from "../types/restaurants";
 import { setCurrentRestaurante } from "../store/reducers/restaurants";
 
@@ -19,22 +20,35 @@ export default function CityMenu() {
 
     const open = Boolean(anchorEl);
 
+    const dispatch = useDispatch();
+
+    const currentRestaurant = useSelector(
+        (state: RootState) => state.restaurant.currentRestaurant
+    );
+
+    const restaurants = useSelector(
+        (state: RootState) => state.restaurant.restaurants
+    );
+
     const handleClick = (
         event: React.MouseEvent<HTMLButtonElement>
     ) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const dispatch = useDispatch();
-
-    const handleClose = (restaurant: Restaurant) => {
-        dispatch(setCurrentRestaurante(restaurant));
+    const handleClose = () => {
         setAnchorEl(null);
     };
 
-    const currentRestaurant = useSelector((state: RootState) => state.restaurant.currentRestaurant)
-    const restaurants = useSelector((state: RootState) => state.restaurant.restaurants)
+    const handleSelect = (restaurant: Restaurant) => {
+        // Un restaurant fermé ne peut pas être sélectionné
+        if (!restaurant.is_open) {
+            return;
+        }
 
+        dispatch(setCurrentRestaurante(restaurant));
+        setAnchorEl(null);
+    };
 
     return (
         <div className="city-menu">
@@ -61,24 +75,33 @@ export default function CityMenu() {
                     },
                 }}
             >
-                {
-                    restaurants.map((restaurant, key) => {
-                        return (
-                            <MenuItem key={key} onClick={() => handleClose(restaurant)}>
-                                {restaurant.city}
-                            </MenuItem>
-                        )
+                {restaurants.map((restaurant) => (
+                    <MenuItem
+                        key={restaurant.id}
+                        onClick={() => handleSelect(restaurant)}
+                        disabled={!restaurant.is_open}
+                    >
+                        <span>{restaurant.city}</span>
 
-                    })
-                }
-
-                {/* <MenuItem onClick={handleClose}>
-                    Aix-en-Provence
-                </MenuItem>
-
-                <MenuItem onClick={handleClose}>
-                    Paris
-                </MenuItem> */}
+                        <Chip
+                            label={
+                                restaurant.is_open
+                                    ? "Ouvert"
+                                    : "Fermé"
+                            }
+                            size="small"
+                            color={
+                                restaurant.is_open
+                                    ? "success"
+                                    : "default"
+                            }
+                            sx={{
+                                ml: 2,
+                                fontSize: "0.7rem",
+                            }}
+                        />
+                    </MenuItem>
+                ))}
             </Menu>
         </div>
     );

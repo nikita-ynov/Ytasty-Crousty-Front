@@ -5,7 +5,7 @@ def init_products(db):
     products = [
         {
             "name": "Burger Chicken",
-            "image": "https://example.com/burger-chicken.jpg",
+            "image": "https://medias.burgerking.fr/_prd/custom-pages/2026/03/crousty/crousty-salt-m.png?w=1100&org_if_sml=1",
             "description": "Burger avec poulet croustillant",
             "category": "burgers",
             "price": 9.90,
@@ -15,7 +15,7 @@ def init_products(db):
         },
         {
             "name": "Burger Cheese",
-            "image": "https://example.com/burger-cheese.jpg",
+            "image": "https://medias.burgerking.fr/_prd/custom-pages/2026/03/crousty/crousty-salt-m.png?w=1100&org_if_sml=1",
             "description": "Burger avec steak et fromage",
             "category": "burgers",
             "price": 10.90,
@@ -25,7 +25,7 @@ def init_products(db):
         },
         {
             "name": "Crousty Box",
-            "image": "https://example.com/crousty-box.jpg",
+            "image": "https://medias.burgerking.fr/_prd/custom-pages/2026/03/crousty/crousty-salt-m.png?w=1100&org_if_sml=1",
             "description": "Box de poulet croustillant avec frites",
             "category": "boxes",
             "price": 12.50,
