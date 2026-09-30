@@ -1,3 +1,9 @@
+# Lancer le serveur
+
+créer le fichier .env copier/coller le contenu de .env.example
+
+Commande pour lancer le serveur+db : docker compose up --build
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
