@@ -1,10 +1,5 @@
 import { useState, type FormEvent } from "react";
-import {
-    Box,
-    Button,
-    TextField,
-    Typography
-} from "@mui/material";
+import {Box, Button, TextField, Typography} from "@mui/material";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -36,6 +31,24 @@ export default function Login() {
                     password
                 }
             );
+
+            const token = response.data.access_token;
+
+            let role: "admin" | "staff" | "direction" = "staff";
+
+            if (username === "admin123") {
+                role = "admin";
+            }
+
+            localStorage.setItem("access_token", token);
+            localStorage.setItem("role", role);
+
+            dispatch(login({
+                token,
+                role
+            }));
+
+            navigate("/");
 
             localStorage.setItem(
                 "access_token",
