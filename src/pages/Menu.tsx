@@ -21,12 +21,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
-
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import type { RootState } from "../store/store";
-
+import { addToCart } from "../store/reducers/cart";
 import type { Product } from "../types/products";
-
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -37,6 +35,7 @@ const categories = [
 ];
 
 export default function Menu() {
+    const dispatch = useDispatch();
     const currentRestaurant = useSelector(
         (state: RootState) => state.restaurant.currentRestaurant
     );
@@ -401,7 +400,9 @@ export default function Menu() {
                                                 className="menu-add-button"
                                                 disabled={!product.is_available}
                                                 onClick={(event) => {
+                                                    event.preventDefault();
                                                     event.stopPropagation();
+                                                    dispatch(addToCart(product));
                                                 }}
                                             >
                                                 <AddIcon />
@@ -519,10 +520,12 @@ export default function Menu() {
                                     }
                                     className="dialog-add-button"
                                     startIcon={<AddIcon />}
+                                    onClick={() => dispatch(addToCart(selectedProduct))}
                                 >
                                     {selectedProduct.is_available
                                         ? "Ajouter au panier"
                                         : "Produit indisponible"}
+
                                 </Button>
 
                             </div>
