@@ -62,11 +62,19 @@ img {
   display: block;
 }
 
-a {
+a,ul,li {
   color: inherit;
   text-decoration: none;
+  list-style: none;
 }
 
 #root {
   min-height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }

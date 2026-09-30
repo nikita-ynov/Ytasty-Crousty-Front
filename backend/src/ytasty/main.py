@@ -21,7 +21,7 @@ from ytasty.modules.restaurants.model import Restaurant
 from ytasty.modules.restaurants.router import router as restaurants_router
 from ytasty.modules.users.model import User
 from ytasty.modules.users.router import router as users_router
-
+from fastapi.middleware.cors import CORSMiddleware
 
 MODELS = [
     Restaurant,
@@ -48,6 +48,15 @@ finally:
 app = FastAPI(
     title="Ytasty Crousty API",
     version="1.0.0",
+)
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
