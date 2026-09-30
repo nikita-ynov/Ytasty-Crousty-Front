@@ -49,15 +49,6 @@ export default function Login() {
             }));
 
             navigate("/");
-
-            localStorage.setItem(
-                "access_token",
-                response.data.access_token
-            );
-
-            dispatch(login(response.data.access_token));
-
-            navigate("/");
         } catch (error) {
             console.error(error);
         }
