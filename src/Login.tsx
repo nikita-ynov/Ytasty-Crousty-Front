@@ -5,18 +5,36 @@ import {
     TextField,
     Typography
 } from "@mui/material";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        console.log({
-            username,
-            password
-        });
+        try {
+            const response = await axios.post(
+                `${import.meta.env.VITE_API_URL}/auth/login`,
+                {
+                    username,
+                    password
+                }
+            );
+
+            localStorage.setItem(
+                "access_token",
+                response.data.access_token
+            );
+
+            navigate("/");
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
