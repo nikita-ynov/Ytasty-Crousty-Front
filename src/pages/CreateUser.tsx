@@ -60,8 +60,15 @@ export default function CreateUser() {
             setPassword("");
             setRole("staff");
             setRestaurantId("");
-        } catch {
-            setError("Impossible de créer l'utilisateur");
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                setError(
+                    error.response?.data?.detail ||
+                    "Impossible de créer l'utilisateur"
+                );
+            } else {
+                setError("Impossible de créer l'utilisateur");
+            }
         }
     };
 
