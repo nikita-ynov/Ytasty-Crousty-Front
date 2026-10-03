@@ -1,0 +1,36 @@
+.commande-page {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.commande-page h1 {
+    margin-bottom: 10px;
+}
+
+.commande-page p {
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+form div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+input {
+    padding: 10px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
