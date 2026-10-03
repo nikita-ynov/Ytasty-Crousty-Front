@@ -1,5 +1,11 @@
 import { useState, type FormEvent } from "react";
-import {Box, Button, TextField, Typography} from "@mui/material";
+import {
+    Alert,
+    Box,
+    Button,
+    TextField,
+    Typography
+} from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -8,6 +14,7 @@ import { login } from "./store/reducers/auth";
 export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -15,15 +22,35 @@ export default function Login() {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        setError("");
+
         if (username.length < 8 || username.length > 12) {
+            setError("L'identifiant doit contenir entre 8 et 12 caractères");
             return;
         }
 
         if (!/^[a-zA-Z0-9]+$/.test(username)) {
+            setError("L'identifiant doit être alphanumérique");
             return;
         }
 
         if (password.length < 12 || password.length > 64) {
+            setError("Le mot de passe doit contenir entre 12 et 64 caractères");
+            return;
+        }
+
+        if (!/[A-Z]/.test(password)) {
+            setError("Le mot de passe doit contenir une majuscule");
+            return;
+        }
+
+        if (!/[0-9]/.test(password)) {
+            setError("Le mot de passe doit contenir un chiffre");
+            return;
+        }
+
+        if (!/[^a-zA-Z0-9]/.test(password)) {
+            setError("Le mot de passe doit contenir un caractère spécial");
             return;
         }
 
@@ -55,8 +82,8 @@ export default function Login() {
             );
 
             navigate("/");
-        } catch (error) {
-            console.error(error);
+        } catch {
+            setError("Identifiant ou mot de passe incorrect");
         }
     };
 
@@ -86,6 +113,12 @@ export default function Login() {
                     gap: 2
                 }}
             >
+                {error && (
+                    <Alert severity="error">
+                        {error}
+                    </Alert>
+                )}
+
                 <TextField
                     label="Identifiant"
                     value={username}

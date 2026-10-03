@@ -7,6 +7,8 @@ import Cart from './pages/Cart.tsx';
 import Checkout from "./Checkout.tsx";
 import Confirmation from "./Confirmation.tsx";
 import Suivi from "./Suivi";
+import CreateUser from "./pages/CreateUser";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 const Layout = () => (
     <>
@@ -50,6 +52,14 @@ const routes = [
             {
                 path: "/suivi/:orderNumber",
                 element: <Suivi />
+            },
+            {
+                path: "/admin/users",
+                element: (
+                    <ProtectedRoute allowedRoles={["admin"]}>
+                        <CreateUser />
+                    </ProtectedRoute>
+                )
             },
             // {
             //     path: "/login",
