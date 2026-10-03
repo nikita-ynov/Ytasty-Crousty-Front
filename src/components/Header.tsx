@@ -52,7 +52,7 @@ export default function Header() {
                         </li>
 
                         <li>
-                            <Link to="/tracking">
+                            <Link to="/suivi">
                                 Suivre ma commande
                             </Link>
                         </li>

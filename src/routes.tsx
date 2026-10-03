@@ -6,6 +6,7 @@ import Login from "./Login.tsx";
 import Cart from './pages/Cart.tsx';
 import Checkout from "./Checkout.tsx";
 import Confirmation from "./Confirmation.tsx";
+import Suivi from "./Suivi";
 
 const Layout = () => (
     <>
@@ -41,6 +42,14 @@ const routes = [
             {
                 path: "/cart",
                 element: <Cart />,
+            },
+            {
+                path: "/suivi",
+                element: <Suivi />
+            },
+            {
+                path: "/suivi/:orderNumber",
+                element: <Suivi />
             },
             // {
             //     path: "/login",

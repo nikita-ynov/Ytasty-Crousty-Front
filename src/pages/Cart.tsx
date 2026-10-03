@@ -195,9 +195,9 @@ export default function Cart() {
                             <strong>{total.toFixed(2)} €</strong>
                         </div>
 
-                        <button className="checkout-button">
+                        <Link to="/formulaire" className="checkout-button">
                             Commander
-                        </button>
+                        </Link>
 
                         <p className="checkout-info">
                             Les frais de livraison seront calculés
