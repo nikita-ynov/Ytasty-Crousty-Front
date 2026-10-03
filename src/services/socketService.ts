@@ -1,12 +1,14 @@
 import { io, Socket } from "socket.io-client";
+import type { Order } from "../types/order";
 
 class SocketService {
     private static instance: SocketService;
-
     public socket: Socket;
 
     private constructor() {
-        this.socket = io("http://localhost:4000");
+        
+        const URL = import.meta.env.VITE_API_URL || "http://localhost:4000";
+        this.socket = io(URL, { autoConnect: false });
     }
     
     public static getInstance(): SocketService {
@@ -15,6 +17,23 @@ class SocketService {
         }
         return SocketService.instance;
     }
+
+    public connect(): void {
+        if (!this.socket.connected) {
+            this.socket.connect();
+        }
+    }
+
+    public disconnect(): void {
+        if (this.socket.connected) {
+            this.socket.disconnect();
+        }
+    }
+
+    public onNewOrder(callback: (order: Order) => void): void {
+        this.socket.on("new_order", callback);
+    }
 }
 
+export const socketService = SocketService.getInstance();
 export default SocketService;
