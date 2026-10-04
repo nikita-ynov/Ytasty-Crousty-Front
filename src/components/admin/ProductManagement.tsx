@@ -5,9 +5,9 @@ import {
   DialogContent, DialogActions, TextField, FormControlLabel, Switch, MenuItem 
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import type { Product, ProductCategory } from '@/types/product';
 import { ProductCard } from '../products/ProductCard';
-import { productsService } from '@/services/productsService';
+import type { Product, ProductCategory } from "../../types/product";
+import { productsService } from "../../services/productsService";
 
 const CATEGORIES: { value: ProductCategory; label: string }[] = [
   { value: 'burgers', label: 'Burgers' },

@@ -9,6 +9,8 @@ import Confirmation from "./Confirmation.tsx";
 import Suivi from "./Suivi";
 import CreateUser from "./pages/CreateUser";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import { KitchenDashboard } from "./components/kitchen/KitchenDashboard";
+import { ProductManagement } from "./components/admin/ProductManagement";
 
 const Layout = () => (
     <>
@@ -58,6 +60,22 @@ const routes = [
                 element: (
                     <ProtectedRoute allowedRoles={["admin"]}>
                         <CreateUser />
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: "/cuisine",
+                element: (
+                    <ProtectedRoute allowedRoles={["staff", "admin", "direction"]}>
+                        <KitchenDashboard />
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: "/admin/products",
+                element: (
+                    <ProtectedRoute allowedRoles={["staff", "admin"]}>
+                        <ProductManagement />
                     </ProtectedRoute>
                 )
             },

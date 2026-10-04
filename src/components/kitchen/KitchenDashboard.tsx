@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { Container, Typography, Box, Alert, Tabs, Tab, Badge, Chip, CircularProgress } from '@mui/material';
 import WifiIcon from '@mui/icons-material/Wifi';
 import WifiOffIcon from '@mui/icons-material/WifiOff';
-import type { Order, OrderStatus } from '@/types/order';
+import type { Order, OrderStatus } from "../../types/order";
+import { ordersService } from "../../services/ordersService";
+import SocketService from "../../services/socketService";
 import { StatsCards } from './StatsCards';
 import { OrderGrid } from './OrderGrid';
-import { ordersService } from '@/services/ordersService';
-import SocketService from '@/services/socketService';
 
 export const KitchenDashboard = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -15,7 +15,7 @@ export const KitchenDashboard = () => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<string>('all');
 
-  const token = localStorage.getItem('token') || '';
+  const token = localStorage.getItem("access_token") || "";
   const restaurantId = '1';
 
   useEffect(() => {

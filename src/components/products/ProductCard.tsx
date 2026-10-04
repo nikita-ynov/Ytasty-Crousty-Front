@@ -6,8 +6,8 @@ import type { Product } from '../../types/product';
 interface ProductCardProps {
   product: Product;
   onToggleAvailability: (id: string, currentStatus: boolean) => void;
-  onEdit: (product: Product) => void;
-  onDelete: (id: string) => void;
+  onEdit?: (product: Product) => void;
+  onDelete?: (id: string) => void;
 }
 
 export const ProductCard = ({ product, onToggleAvailability, onEdit, onDelete }: ProductCardProps) => {
@@ -52,12 +52,25 @@ export const ProductCard = ({ product, onToggleAvailability, onEdit, onDelete }:
             }
           />
           <Box>
-            <IconButton size="small" onClick={() => onEdit(product)} color="primary">
-              <EditIcon fontSize="small" />
-            </IconButton>
-            <IconButton size="small" onClick={() => onDelete(product.id)} color="error">
-              <DeleteIcon fontSize="small" />
-            </IconButton>
+            {onEdit && (
+                <IconButton
+                    size="small"
+                    onClick={() => onEdit(product)}
+                    color="primary"
+                >
+                  <EditIcon fontSize="small" />
+                </IconButton>
+            )}
+
+            {onDelete && (
+                <IconButton
+                    size="small"
+                    onClick={() => onDelete(product.id)}
+                    color="error"
+                >
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+            )}
           </Box>
         </Box>
       </CardContent>
