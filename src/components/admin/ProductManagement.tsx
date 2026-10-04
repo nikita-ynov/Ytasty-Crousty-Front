@@ -17,9 +17,9 @@ const CATEGORIES: { value: ProductCategory; label: string }[] = [
 ];
 
 const RESTAURANTS = [
-  { id: '1', name: 'Aix-en-Provence' },
-  { id: '2', name: 'Lyon' },
-  { id: '3', name: 'Paris' },
+  { id: 1, name: "Aix-en-Provence" },
+  { id: 2, name: "Lyon" },
+  { id: 3, name: "Paris" }
 ];
 
 export const ProductManagement = () => {
@@ -31,7 +31,7 @@ export const ProductManagement = () => {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   const userRole = localStorage.getItem('role') || 'staff'; // 'admin' ou 'staff'
-  const userRestaurantId = localStorage.getItem('restaurant_id') || '1';
+  const userRestaurantId = Number(localStorage.getItem("restaurant_id") || 1);
 
   const [formData, setFormData] = useState({
     restaurant_id: userRestaurantId,
@@ -40,7 +40,7 @@ export const ProductManagement = () => {
     price: 0,
     category: 'burgers' as ProductCategory,
     ingredients: '',
-    image_url: '',
+    image: "",
     is_available: true,
   });
 
@@ -61,7 +61,7 @@ export const ProductManagement = () => {
     fetchProducts();
   }, []);
 
-  const handleToggleAvailability = async (id: string, currentStatus: boolean) => {
+  const handleToggleAvailability = async (id: number, currentStatus: boolean) => {
     try {
       const updated = await productsService.toggleAvailability(id, !currentStatus);
       setProducts((prev) => prev.map((p) => (p.id === id ? updated : p)));
@@ -70,7 +70,7 @@ export const ProductManagement = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: number) => {
     if (userRole !== 'admin') return;
     if (!window.confirm('Voulez-vous vraiment supprimer ce produit ?')) return;
     try {
@@ -91,7 +91,7 @@ export const ProductManagement = () => {
         price: product.price,
         category: product.category,
         ingredients: product.ingredients ? product.ingredients.join(', ') : '',
-        image_url: product.image_url || '',
+        image: product.image || "",
         is_available: product.is_available,
       });
     } else {
@@ -103,7 +103,7 @@ export const ProductManagement = () => {
         price: 0,
         category: 'burgers',
         ingredients: '',
-        image_url: '',
+        image: "",
         is_available: true,
       });
     }
@@ -191,7 +191,7 @@ export const ProductManagement = () => {
               fullWidth
               required
               value={formData.restaurant_id}
-              onChange={(e) => setFormData({ ...formData, restaurant_id: e.target.value })}
+              onChange={(e) => setFormData({ ...formData, restaurant_id: Number(e.target.value) })}
             >
               {RESTAURANTS.map((r) => (
                 <MenuItem key={r.id} value={r.id}>
@@ -253,10 +253,16 @@ export const ProductManagement = () => {
             />
 
             <TextField
-              label="URL de l'image"
-              fullWidth
-              value={formData.image_url}
-              onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                label="URL de l'image"
+                fullWidth
+                required
+                value={formData.image}
+                onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      image: e.target.value
+                    })
+                }
             />
 
             <FormControlLabel

@@ -1,13 +1,19 @@
-export type ProductCategory = 'burgers' | 'sides' | 'drinks' | 'desserts';
+export type ProductCategory =
+    | "burgers"
+    | "boxes"
+    | "menus"
+    | "sides"
+    | "drinks"
+    | "desserts";
 
 export interface Product {
-  id: string;
-  restaurant_id: string;
+  id: number;
+  restaurant_id: number;
   name: string;
+  image: string;
   description: string;
-  price: number;
   category: ProductCategory;
-  ingredients?: string[];
-  image_url?: string;
+  price: number;
   is_available: boolean;
+  ingredients: string[];
 }

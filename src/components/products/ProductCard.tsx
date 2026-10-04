@@ -5,9 +5,9 @@ import type { Product } from '../../types/product';
 
 interface ProductCardProps {
   product: Product;
-  onToggleAvailability: (id: string, currentStatus: boolean) => void;
+  onToggleAvailability: (id: number, currentStatus: boolean) => void;
+  onDelete?: (id: number) => void;
   onEdit?: (product: Product) => void;
-  onDelete?: (id: string) => void;
 }
 
 export const ProductCard = ({ product, onToggleAvailability, onEdit, onDelete }: ProductCardProps) => {
@@ -16,7 +16,7 @@ export const ProductCard = ({ product, onToggleAvailability, onEdit, onDelete }:
       <CardMedia
         component="img"
         height="160"
-        image={product.image_url || 'https://via.placeholder.com/300x160?text=No+Image'}
+        image={product.image || "https://via.placeholder.com/300x160?text=No+Image"}
         alt={product.name}
       />
       <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>

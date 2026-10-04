@@ -4,12 +4,11 @@ import type { Product } from "../types/product";
 export const productsService = {
   getProducts: async (): Promise<Product[]> => {
     const response = await api.get("/products");
-
     return response.data;
   },
 
   toggleAvailability: async (
-      productId: string,
+      productId: number,
       isAvailable: boolean
   ): Promise<Product> => {
     const response = await api.patch(
@@ -34,7 +33,7 @@ export const productsService = {
   },
 
   updateProduct: async (
-      productId: string,
+      productId: number,
       productData: Partial<Product>
   ): Promise<Product> => {
     const response = await api.patch(
@@ -46,7 +45,7 @@ export const productsService = {
   },
 
   deleteProduct: async (
-      productId: string
+      productId: number
   ): Promise<void> => {
     await api.delete(`/products/${productId}`);
   }
