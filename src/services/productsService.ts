@@ -1,42 +1,53 @@
-import axios from 'axios';
-import type { Product } from '../types/product';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+import api from "./api";
+import type { Product } from "../types/product";
 
 export const productsService = {
-  getProducts: async (token: string): Promise<Product[]> => {
-    const response = await axios.get(`${API_URL}/products`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+  getProducts: async (): Promise<Product[]> => {
+    const response = await api.get("/products");
+
     return response.data;
   },
 
-  toggleAvailability: async (productId: string, isAvailable: boolean, token: string): Promise<Product> => {
-    const response = await axios.patch(
-      `${API_URL}/products/${productId}/availability`,
-      { is_available: isAvailable },
-      { headers: { Authorization: `Bearer ${token}` } }
+  toggleAvailability: async (
+      productId: string,
+      isAvailable: boolean
+  ): Promise<Product> => {
+    const response = await api.patch(
+        `/products/${productId}/availability`,
+        {
+          is_available: isAvailable
+        }
     );
+
     return response.data;
   },
 
-  createProduct: async (productData: Omit<Product, 'id'>, token: string): Promise<Product> => {
-    const response = await axios.post(`${API_URL}/products`, productData, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+  createProduct: async (
+      productData: Omit<Product, "id">
+  ): Promise<Product> => {
+    const response = await api.post(
+        "/products",
+        productData
+    );
+
     return response.data;
   },
 
-  updateProduct: async (productId: string, productData: Partial<Product>, token: string): Promise<Product> => {
-    const response = await axios.patch(`${API_URL}/products/${productId}`, productData, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+  updateProduct: async (
+      productId: string,
+      productData: Partial<Product>
+  ): Promise<Product> => {
+    const response = await api.patch(
+        `/products/${productId}`,
+        productData
+    );
+
     return response.data;
   },
 
-  deleteProduct: async (productId: string, token: string): Promise<void> => {
-    await axios.delete(`${API_URL}/products/${productId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-  },
+  deleteProduct: async (
+      productId: string
+  ): Promise<void> => {
+    await api.delete(`/products/${productId}`);
+  }
 };

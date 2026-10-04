@@ -44,12 +44,11 @@ export const ProductManagement = () => {
     is_available: true,
   });
 
-  const token = localStorage.getItem("access_token") || "";
 
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const data = await productsService.getProducts(token);
+      const data = await productsService.getProducts();
       setProducts(data);
     } catch {
       setError('Erreur lors du chargement des produits.');
@@ -64,7 +63,7 @@ export const ProductManagement = () => {
 
   const handleToggleAvailability = async (id: string, currentStatus: boolean) => {
     try {
-      const updated = await productsService.toggleAvailability(id, !currentStatus, token);
+      const updated = await productsService.toggleAvailability(id, !currentStatus);
       setProducts((prev) => prev.map((p) => (p.id === id ? updated : p)));
     } catch {
       setError('Impossible de modifier la disponibilité.');
@@ -75,7 +74,7 @@ export const ProductManagement = () => {
     if (userRole !== 'admin') return;
     if (!window.confirm('Voulez-vous vraiment supprimer ce produit ?')) return;
     try {
-      await productsService.deleteProduct(id, token);
+      await productsService.deleteProduct(id);
       setProducts((prev) => prev.filter((p) => p.id !== id));
     } catch {
       setError('Erreur lors de la suppression.');
@@ -125,10 +124,10 @@ export const ProductManagement = () => {
       };
 
       if (editingProduct) {
-        const updated = await productsService.updateProduct(editingProduct.id, payload, token);
+        const updated = await productsService.updateProduct(editingProduct.id, payload);
         setProducts((prev) => prev.map((p) => (p.id === editingProduct.id ? updated : p)));
       } else {
-        const created = await productsService.createProduct(payload, token);
+        const created = await productsService.createProduct(payload);
         setProducts((prev) => [...prev, created]);
       }
       handleCloseModal();

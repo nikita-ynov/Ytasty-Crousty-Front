@@ -34,7 +34,7 @@ export const KitchenDashboard = () => {
 
       try {
         setLoading(true);
-        const data = await ordersService.getRestaurantOrders(restaurantId, token);
+        const data = await ordersService.getRestaurantOrders(restaurantId);
         setOrders(data);
       } catch (err) {
         setError('Impossible de charger les commandes.');
@@ -68,7 +68,7 @@ export const KitchenDashboard = () => {
 
   const handleStatusChange = async (orderNumber: string, newStatus: OrderStatus) => {
     try {
-      await ordersService.updateOrderStatus(orderNumber, newStatus, token);
+      await ordersService.updateOrderStatus(orderNumber, newStatus);
       setOrders((prev) =>
         prev.map((order) =>
           order.order_number === orderNumber ? { ...order, status: newStatus } : order
@@ -91,7 +91,7 @@ export const KitchenDashboard = () => {
 
   const handleCancelOrder = async (orderNumber: string) => {
     try {
-      await ordersService.cancelOrder(orderNumber, token);
+      await ordersService.cancelOrder(orderNumber);
 
       setOrders((prev) =>
           prev.map((order) =>
