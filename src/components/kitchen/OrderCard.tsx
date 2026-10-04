@@ -75,29 +75,41 @@ export const OrderCard = ({ order, onStatusChange, onCancelOrder }: OrderCardPro
               {new Date(order.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} ({minutesElapsed} min)
             </Typography>
           </Box>
-          {order.takeaway_mode && (
-            <Chip 
-              label={order.takeaway_mode === 'onsite' ? 'Sur place' : 'À emporter'} 
-              size="small" 
-              variant="outlined" 
-            />
+          {order.pickup_mode && (
+              <Chip
+                  label={
+                    order.pickup_mode === "onsite"
+                        ? "Sur place"
+                        : "À emporter"
+                  }
+                  size="small"
+                  variant="outlined"
+              />
           )}
         </Box>
 
         <Divider sx={{ my: 1.5 }} />
 
         <Stack spacing={1} sx={{ my: 2 }}>
-          {order.items.map((item, index) => (
-            <Box key={index} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                {item.quantity}x {item.product?.name || `Produit #${item.product_id}`}
-              </Typography>
-              {item.price && (
-                <Typography variant="body2" color="text.secondary">
-                  {(item.price * item.quantity).toFixed(2)} €
+          {order.items.map((item) => (
+              <Box
+                  key={item.product_id}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between"
+                  }}
+              >
+                <Typography variant="body2">
+                  {item.quantity} × Produit #{item.product_id}
                 </Typography>
-              )}
-            </Box>
+
+                <Typography
+                    variant="body2"
+                    color="text.secondary"
+                >
+                  {(item.unit_price * item.quantity).toFixed(2)} €
+                </Typography>
+              </Box>
           ))}
         </Stack>
 

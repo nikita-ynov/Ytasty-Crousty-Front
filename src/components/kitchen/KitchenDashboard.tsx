@@ -17,7 +17,6 @@ export const KitchenDashboard = () => {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<string>('all');
 
-  const token = localStorage.getItem("access_token") || "";
   const currentRestaurant = useSelector(
       (state: RootState) => state.restaurant.currentRestaurant
   );
@@ -64,7 +63,7 @@ export const KitchenDashboard = () => {
       socketInstance.off('disconnect', onDisconnect);
       socketInstance.off('newOrder', onNewOrder);
     };
-  }, [restaurantId, token]);
+  }, [restaurantId]);
 
   const handleStatusChange = async (orderNumber: string, newStatus: OrderStatus) => {
     try {
