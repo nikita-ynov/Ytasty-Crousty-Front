@@ -44,7 +44,7 @@ export const ProductManagement = () => {
     is_available: true,
   });
 
-  const token = localStorage.getItem('token') || '';
+  const token = localStorage.getItem("access_token") || "";
 
   const fetchProducts = async () => {
     try {

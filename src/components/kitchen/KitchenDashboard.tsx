@@ -7,6 +7,8 @@ import { ordersService } from "../../services/ordersService";
 import SocketService from "../../services/socketService";
 import { StatsCards } from './StatsCards';
 import { OrderGrid } from './OrderGrid';
+import { useSelector } from "react-redux";
+import type { RootState } from "../../store/store";
 
 export const KitchenDashboard = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -16,10 +18,20 @@ export const KitchenDashboard = () => {
   const [currentTab, setCurrentTab] = useState<string>('all');
 
   const token = localStorage.getItem("access_token") || "";
-  const restaurantId = '1';
+  const currentRestaurant = useSelector(
+      (state: RootState) => state.restaurant.currentRestaurant
+  );
+
+  const restaurantId = currentRestaurant?.id?.toString();
 
   useEffect(() => {
     const fetchOrders = async () => {
+
+      if (!restaurantId) {
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
         const data = await ordersService.getRestaurantOrders(restaurantId, token);
@@ -76,6 +88,22 @@ export const KitchenDashboard = () => {
   const preparingCount = orders.filter((o) => o.status === 'preparing').length;
   const readyCount = orders.filter((o) => o.status === 'ready').length;
   const revenue = orders.reduce((acc, o) => acc + (o.total_price || 0), 0);
+
+  const handleCancelOrder = async (orderNumber: string) => {
+    try {
+      await ordersService.cancelOrder(orderNumber, token);
+
+      setOrders((prev) =>
+          prev.map((order) =>
+              order.order_number === orderNumber
+                  ? { ...order, status: "cancelled" }
+                  : order
+          )
+      );
+    } catch {
+      setError("Erreur lors de l'annulation de la commande.");
+    }
+  };
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
@@ -143,7 +171,11 @@ export const KitchenDashboard = () => {
           <CircularProgress />
         </Box>
       ) : (
-        <OrderGrid orders={filteredOrders} onStatusChange={handleStatusChange} />
+          <OrderGrid
+              orders={filteredOrders}
+              onStatusChange={handleStatusChange}
+              onCancelOrder={handleCancelOrder}
+          />
       )}
     </Container>
   );
