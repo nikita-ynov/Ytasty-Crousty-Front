@@ -1,5 +1,8 @@
+import socketio
+
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from ytasty.common.errors import (
     BadRequestError,
@@ -21,7 +24,8 @@ from ytasty.modules.restaurants.model import Restaurant
 from ytasty.modules.restaurants.router import router as restaurants_router
 from ytasty.modules.users.model import User
 from ytasty.modules.users.router import router as users_router
-from fastapi.middleware.cors import CORSMiddleware
+from ytasty.socket_server import sio
+
 
 MODELS = [
     Restaurant,
@@ -45,13 +49,16 @@ finally:
     db.close()
 
 
-app = FastAPI(
+api = FastAPI(
     title="Ytasty Crousty API",
     version="1.0.0",
 )
+
+
 origins = ["*"]
 
-app.add_middleware(
+
+api.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
@@ -60,7 +67,7 @@ app.add_middleware(
 )
 
 
-@app.exception_handler(NotFoundError)
+@api.exception_handler(NotFoundError)
 def not_found_handler(request: Request, error: NotFoundError):
     return JSONResponse(
         status_code=404,
@@ -68,7 +75,7 @@ def not_found_handler(request: Request, error: NotFoundError):
     )
 
 
-@app.exception_handler(UnauthorizedError)
+@api.exception_handler(UnauthorizedError)
 def unauthorized_handler(request: Request, error: UnauthorizedError):
     return JSONResponse(
         status_code=401,
@@ -76,7 +83,7 @@ def unauthorized_handler(request: Request, error: UnauthorizedError):
     )
 
 
-@app.exception_handler(ForbiddenError)
+@api.exception_handler(ForbiddenError)
 def forbidden_handler(request: Request, error: ForbiddenError):
     return JSONResponse(
         status_code=403,
@@ -84,7 +91,7 @@ def forbidden_handler(request: Request, error: ForbiddenError):
     )
 
 
-@app.exception_handler(BadRequestError)
+@api.exception_handler(BadRequestError)
 def bad_request_handler(request: Request, error: BadRequestError):
     return JSONResponse(
         status_code=400,
@@ -92,13 +99,19 @@ def bad_request_handler(request: Request, error: BadRequestError):
     )
 
 
-app.include_router(auth_router)
-app.include_router(users_router)
-app.include_router(restaurants_router)
-app.include_router(products_router)
-app.include_router(orders_router)
+api.include_router(auth_router)
+api.include_router(users_router)
+api.include_router(restaurants_router)
+api.include_router(products_router)
+api.include_router(orders_router)
 
 
-@app.get("/health")
+@api.get("/health")
 def health():
     return {"status": "ok"}
+
+
+app = socketio.ASGIApp(
+    sio,
+    other_asgi_app=api,
+)

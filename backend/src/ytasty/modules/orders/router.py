@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-
+from ytasty.socket_server import sio
 from ytasty.db.database import get_db
 from ytasty.modules.auth.dependencies import get_current_user
 from ytasty.modules.orders import service
@@ -19,11 +19,22 @@ router = APIRouter(
 
 
 @router.post("/orders", response_model=OrderResponse, status_code=201)
-def create_order(
+async def create_order(
     order_data: OrderCreate,
     db: Session = Depends(get_db),
 ):
-    return service.create_order(db, order_data)
+    order = service.create_order(db, order_data)
+
+    order_data_for_socket = OrderResponse.model_validate(order).model_dump(
+        mode="json"
+    )
+
+    await sio.emit(
+        "new_order",
+        order_data_for_socket
+    )
+
+    return order
 
 
 @router.get("/orders/{order_number}", response_model=OrderResponse)
