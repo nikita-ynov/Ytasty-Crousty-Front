@@ -4,6 +4,24 @@ créer le fichier .env copier/coller le contenu de .env.example
 
 Commande pour lancer le serveur+db : docker compose up --build
 
+## Synchronisation temps réel - Option A
+
+Nous avons choisi l'Option A : Écran Cuisine Live.
+
+Lorsqu'un client valide une commande, le backend FastAPI
+crée la commande puis émet un événement Socket.io `new_order`.
+
+Le tableau de bord Cuisine écoute cet événement et ajoute
+automatiquement la nouvelle commande à l'écran, sans
+rafraîchissement manuel.
+
+Une notification visuelle informe le personnel de l'arrivée
+d'une nouvelle commande.
+
+Flux :
+
+Client -> POST /orders -> FastAPI -> Socket.io -> KitchenDashboard
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
