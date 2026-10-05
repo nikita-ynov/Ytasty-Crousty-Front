@@ -118,16 +118,6 @@ export const KitchenDashboard = () => {
       });
 
       setNewOrderNotification(true);
-
-
-      const audio =
-          new Audio("/notification.mp3");
-
-      audio.play().catch(() => {
-        console.log(
-            "Le navigateur a bloqué le son."
-        );
-      });
     };
 
 
