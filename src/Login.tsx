@@ -140,6 +140,26 @@ export default function Login() {
                     type="submit"
                     variant="contained"
                     fullWidth
+                    sx={{
+                        background: "var(--color-primary)",
+                        color: "white",
+                        borderRadius: "999px",
+                        padding: "10px 18px",
+                        fontWeight: 600,
+                        textTransform: "none",
+                        boxShadow: "0 2px 5px rgba(160, 65, 0, 0.12)",
+
+                        "&:hover": {
+                            background: "var(--color-primary)",
+                            opacity: 0.95,
+                            transform: "translateY(-1px)",
+                            boxShadow: "0 4px 10px rgba(160, 65, 0, 0.18)"
+                        },
+
+                        "&:active": {
+                            transform: "scale(0.97)"
+                        }
+                    }}
                 >
                     Se connecter
                 </Button>
