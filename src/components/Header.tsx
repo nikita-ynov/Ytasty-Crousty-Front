@@ -76,7 +76,9 @@ export default function Header() {
 
                     {token ? (
                         <>
-                            {role === "staff" && (
+                            {(role === "staff" ||
+                                role === "direction" ||
+                                role === "admin") && (
                                 <Link
                                     className="login"
                                     to="/cuisine"
