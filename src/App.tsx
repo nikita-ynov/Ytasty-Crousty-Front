@@ -88,7 +88,7 @@ function App() {
           <div className="product-grid">
             {availableProducts.slice(0, 4).map((product) => (
               <Link
-                to={`/products/${product.restaurant_id}`}
+                  to="/menu"
                 className="product-card"
                 key={`${product.restaurant_id}-${product.name}`}
               >
