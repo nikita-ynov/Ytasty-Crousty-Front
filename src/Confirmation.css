@@ -1,0 +1,63 @@
+.confirmation-page {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 24px;
+}
+
+.confirmation-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 24px;
+    padding: 32px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(160, 65, 0, 0.08);
+}
+
+.confirmation-card h1 {
+    margin-bottom: 12px;
+    color: var(--color-text);
+}
+
+.confirmation-card p {
+    color: var(--color-text-secondary);
+}
+
+.confirmation-card h2 {
+    margin: 20px 0 28px;
+    color: var(--color-primary);
+}
+
+.confirmation-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--color-primary);
+    color: white;
+
+    border-radius: 999px;
+
+    padding: 11px 22px;
+
+    font-weight: 600;
+
+    box-shadow:
+            0 2px 5px rgba(160, 65, 0, 0.12);
+
+    transition:
+            transform 0.2s ease,
+            opacity 0.2s ease,
+            box-shadow 0.2s ease;
+}
+
+.confirmation-button:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+
+    box-shadow:
+            0 4px 10px rgba(160, 65, 0, 0.18);
+}
+
+.confirmation-button:active {
+    transform: scale(0.97);
+}

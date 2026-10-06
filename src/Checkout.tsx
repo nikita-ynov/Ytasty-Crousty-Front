@@ -15,13 +15,17 @@ export default function Checkout() {
 
     return (
         <main className="commande-page">
-            <h1>Finaliser ma commande</h1>
+            <div className="commande-card">
+                <h1 className="commande-title">
+                    Finaliser ma commande
+                </h1>
 
-            <p>
-                Renseignez vos informations pour valider votre commande.
-            </p>
+                <p className="commande-subtitle">
+                    Renseignez vos informations pour valider votre commande.
+                </p>
 
-            <Formulaire items={items} />
+                <Formulaire items={items} />
+            </div>
         </main>
     );
 }

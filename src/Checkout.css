@@ -1,36 +1,120 @@
 .commande-page {
-    max-width: 600px;
-    margin: 40px auto;
-    padding: 20px;
+    max-width: 620px;
+    margin: 60px auto;
+    padding: 24px;
 }
 
-.commande-page h1 {
-    margin-bottom: 10px;
+.commande-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 4px 16px rgba(160, 65, 0, 0.08);
 }
 
-.commande-page p {
-    margin-bottom: 20px;
+.commande-title {
+    margin: 0 0 8px;
+    font-weight: 700;
+    color: var(--color-text);
 }
 
-form {
+.commande-subtitle {
+    margin: 0 0 28px;
+    color: var(--color-text-secondary);
+}
+
+.commande-form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 18px;
 }
 
-form div {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+
+.commande-field .MuiOutlinedInput-root {
+    border-radius: 14px;
 }
 
-input {
-    padding: 10px;
-    font-size: 16px;
+.commande-field
+.MuiOutlinedInput-root:hover
+.MuiOutlinedInput-notchedOutline {
+    border-color: var(--color-primary);
 }
 
-button {
-    padding: 10px 15px;
-    font-size: 16px;
-    cursor: pointer;
+.commande-field
+.MuiOutlinedInput-root.Mui-focused
+.MuiOutlinedInput-notchedOutline {
+    border-color: var(--color-primary) !important;
+}
+
+.commande-field
+.MuiInputLabel-root.Mui-focused {
+    color: var(--color-primary) !important;
+}
+
+
+
+.commande-pickup {
+    background: var(--color-surface-low);
+    border-radius: 16px;
+    padding: 16px 18px !important;
+}
+
+.commande-pickup-title {
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.commande-pickup .MuiRadio-root.Mui-checked {
+    color: var(--color-primary) !important;
+}
+
+
+.commande-submit {
+    margin-top: 6px !important;
+
+    background: var(--color-primary) !important;
+    color: white !important;
+
+    border-radius: 999px !important;
+
+    padding: 11px 18px !important;
+
+    font-weight: 600 !important;
+    text-transform: none !important;
+
+    box-shadow:
+            0 2px 5px rgba(160, 65, 0, 0.12) !important;
+
+    transition:
+            transform 0.2s ease,
+            opacity 0.2s ease,
+            box-shadow 0.2s ease !important;
+}
+
+.commande-submit:hover {
+    background: var(--color-primary) !important;
+    opacity: 0.95;
+    transform: translateY(-1px);
+
+    box-shadow:
+            0 4px 10px rgba(160, 65, 0, 0.18) !important;
+}
+
+.commande-submit:active {
+    transform: scale(0.97);
+}
+
+
+@media (max-width: 600px) {
+    .commande-page {
+        margin: 30px auto;
+        padding: 16px;
+    }
+
+    .commande-card {
+        padding: 24px 18px;
+        border-radius: 20px;
+    }
 }
