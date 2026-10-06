@@ -32,6 +32,36 @@ export default function CreateUser() {
         setMessage("");
         setError("");
 
+        if (username.length < 8 || username.length > 12) {
+            setError("L'identifiant doit contenir entre 8 et 12 caractères");
+            return;
+        }
+
+        if (!/^[a-zA-Z0-9]+$/.test(username)) {
+            setError("L'identifiant doit être alphanumérique");
+            return;
+        }
+
+        if (password.length < 12 || password.length > 64) {
+            setError("Le mot de passe doit contenir entre 12 et 64 caractères");
+            return;
+        }
+
+        if (!/[A-Z]/.test(password)) {
+            setError("Le mot de passe doit contenir une majuscule");
+            return;
+        }
+
+        if (!/[0-9]/.test(password)) {
+            setError("Le mot de passe doit contenir un chiffre");
+            return;
+        }
+
+        if (!/[^a-zA-Z0-9]/.test(password)) {
+            setError("Le mot de passe doit contenir un caractère spécial");
+            return;
+        }
+
         try {
             await axios.post(
                 `${import.meta.env.VITE_API_URL}/users`,
