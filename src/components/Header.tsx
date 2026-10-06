@@ -9,6 +9,10 @@ export default function Header() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const role = useSelector(
+        (state: RootState) => state.auth.role
+    );
+
     const token = useSelector(
         (state: RootState) => state.auth.token
     );
@@ -71,11 +75,28 @@ export default function Header() {
                     </Link>
 
                     {token ? (
-                        <button className="login" onClick={handleLogout}>
-                            Déconnexion
-                        </button>
+                        <>
+                            {role === "admin" && (
+                                <Link
+                                    className="login"
+                                    to="/admin/users"
+                                >
+                                    Créer un utilisateur
+                                </Link>
+                            )}
+
+                            <button
+                                className="login"
+                                onClick={handleLogout}
+                            >
+                                Déconnexion
+                            </button>
+                        </>
                     ) : (
-                        <Link className="login" to="/login">
+                        <Link
+                            className="login"
+                            to="/login"
+                        >
                             Connexion
                         </Link>
                     )}
