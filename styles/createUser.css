@@ -1,0 +1,99 @@
+.create-user-page {
+    max-width: 520px;
+    margin: 60px auto;
+    padding: 24px;
+}
+
+.create-user-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 4px 16px rgba(160, 65, 0, 0.08);
+}
+
+.create-user-title {
+    margin-bottom: 8px !important;
+    font-weight: 700 !important;
+    color: var(--color-text);
+}
+
+.create-user-subtitle {
+    margin-bottom: 24px !important;
+    color: var(--color-text-secondary);
+}
+
+.create-user-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+
+.create-user-field .MuiOutlinedInput-root {
+    border-radius: 14px;
+}
+
+.create-user-field
+.MuiOutlinedInput-root.Mui-focused
+.MuiOutlinedInput-notchedOutline {
+    border-color: var(--color-primary);
+}
+
+.create-user-field
+.MuiInputLabel-root.Mui-focused {
+    color: var(--color-primary);
+}
+
+
+/* Bouton */
+
+.create-user-submit {
+    margin-top: 8px !important;
+
+    background: var(--color-primary) !important;
+    color: white !important;
+
+    border-radius: 999px !important;
+
+    padding: 11px 18px !important;
+
+    font-weight: 600 !important;
+    text-transform: none !important;
+
+    box-shadow:
+            0 2px 5px rgba(160, 65, 0, 0.12) !important;
+
+    transition:
+            transform 0.2s ease,
+            opacity 0.2s ease,
+            box-shadow 0.2s ease !important;
+}
+
+.create-user-submit:hover {
+    background: var(--color-primary) !important;
+
+    opacity: 0.95;
+
+    transform: translateY(-1px);
+
+    box-shadow:
+            0 4px 10px rgba(160, 65, 0, 0.18) !important;
+}
+
+.create-user-submit:active {
+    transform: scale(0.97);
+}
+
+
+@media (max-width: 600px) {
+    .create-user-page {
+        margin: 30px auto;
+        padding: 16px;
+    }
+
+    .create-user-card {
+        padding: 24px 18px;
+        border-radius: 20px;
+    }
+}

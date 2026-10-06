@@ -2,6 +2,8 @@ import { Card, CardContent, Typography, Box, Button, Chip, Divider, Stack } from
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CancelIcon from '@mui/icons-material/Cancel';
 import type { Order, OrderStatus } from '../../types/order';
+import { useSelector } from "react-redux";
+import type { RootState } from "../../store/store";
 
 interface OrderCardProps {
   order: Order;
@@ -10,7 +12,13 @@ interface OrderCardProps {
 }
 
 export const OrderCard = ({ order, onStatusChange, onCancelOrder }: OrderCardProps) => {
-  
+  const restaurants = useSelector(
+      (state: RootState) => state.restaurant.restaurants
+  );
+
+  const restaurant = restaurants.find(
+      (restaurant) => restaurant.id === order.restaurant_id
+  );
   const minutesElapsed = Math.floor(
     (new Date().getTime() - new Date(order.created_at).getTime()) / 60000
   );
@@ -65,6 +73,21 @@ export const OrderCard = ({ order, onStatusChange, onCancelOrder }: OrderCardPro
             color={getStatusColor(order.status)} 
             size="small" 
             sx={{ fontWeight: 600 }}
+          />
+          <Chip
+              label={
+                restaurant
+                    ? `${restaurant.name} - ${restaurant.city}`
+                    : `Restaurant #${order.restaurant_id}`
+              }
+              size="small"
+              variant="outlined"
+              sx={{
+                mb: 1.5,
+                borderColor: "var(--color-primary)",
+                color: "var(--color-primary)",
+                fontWeight: 600
+              }}
           />
         </Box>
 
